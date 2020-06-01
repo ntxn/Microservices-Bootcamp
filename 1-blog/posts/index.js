@@ -10,16 +10,16 @@ app.use(cors());
 
 const posts = {};
 
-// app.get('/posts', (req, res) => {
-//   res.send(posts);
-// });
+app.get('/posts', (req, res) => {
+  res.send(posts);
+});
 
-app.post('/posts', async (req, res) => {
+app.post('/posts/create', async (req, res) => {
   const id = randomBytes(4).toString('hex');
   const newPost = { id, title: req.body.title };
   posts[id] = newPost;
 
-  await axios.post('http://127.0.0.1:4005/events', {
+  await axios.post('http://event-bus-srv:4005/events', {
     type: 'PostCreated',
     data: newPost,
   });
@@ -32,4 +32,7 @@ app.post('/events', (req, res) => {
   res.send({});
 });
 
-app.listen(4000, () => console.log('POSTS Server listening on port 4000'));
+app.listen(4000, () => {
+  console.log('V550000');
+  console.log('POSTS Server listening on port 4000');
+});
